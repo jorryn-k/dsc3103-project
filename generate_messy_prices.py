@@ -1,3 +1,5 @@
+# %%
+
 import csv
 import random
 from datetime import datetime, timedelta
@@ -23,6 +25,7 @@ for i in range(1000):
 
 rows += rows[20:30]
 
+# Make sure the folder exists
 Path("data/raw").mkdir(parents=True, exist_ok=True)
 
 with open("data/raw/prices.csv", "w", newline="") as f:
@@ -32,3 +35,6 @@ with open("data/raw/prices.csv", "w", newline="") as f:
 
 print("Messy file created successfully!")
 print(f"Total rows: {len(rows)}")
+
+
+# %%

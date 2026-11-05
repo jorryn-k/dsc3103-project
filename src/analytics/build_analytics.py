@@ -40,12 +40,12 @@ def build_star_schema():
     df = pd.read_parquet(RAW_JOINED_PATH)
     con = db.connect(DB_PATH)
 
-    # --- dim_market (already given) ---
+    # --- dim_market ---
     dim_market = df[["market"]].drop_duplicates().reset_index(drop=True)
     dim_market["market_id"] = dim_market.index
     con.execute("CREATE OR REPLACE TABLE dim_market AS SELECT * FROM dim_market")
 
-    # --- dim_commodity (you fill this in) ---
+    # --- dim_commodity---
     dim_commodity = df[["commodity"]].drop_duplicates().reset_index(drop=True)
     dim_commodity["commodity_id"] = dim_commodity.index
     con.execute("CREATE OR REPLACE TABLE dim_commodity AS SELECT * FROM dim_commodity")
@@ -55,7 +55,7 @@ def build_star_schema():
     fact = df.merge(dim_market, on="market", how="left")
     fact = fact.merge(dim_commodity, on="commodity", how="left")
 
-    # Keep only the columns we need
+    # Keep only the columns needed
     fact = fact[["id", "date", "market_id", "commodity_id", "price", "rainfall_mm"]]
 
     con.execute("CREATE OR REPLACE TABLE fact_price_observation AS SELECT * FROM fact")
@@ -67,7 +67,7 @@ def build_star_schema():
 def run_analytical_queries():
     con = db.connect(DB_PATH)
 
-    # Query 1 (given)
+    # Query 1 
     print("=== Query 1: Average price by market ===")
     print(con.sql("""
         SELECT dm.market, AVG(f.price) AS mean_price
@@ -77,7 +77,7 @@ def run_analytical_queries():
         ORDER BY mean_price DESC
     """).df())
 
-    # Query 2 (given)
+    # Query 2 
     print("=== Query 2: Observation count by commodity ===")
     print(con.sql("""
         SELECT dc.commodity, COUNT(*) AS n_observations
@@ -156,4 +156,4 @@ if __name__ == "__main__":
     build_star_schema()
     run_analytical_queries()
     compare_performance()
-    # TODO
+    

@@ -49,3 +49,8 @@ def rule_known_commodity(df):
     bad["Reason"] = "Unknown or inconsistent commodity"
     return bad
 # %%
+def rule_negative_rain(df):
+    """Return rows where price is negative or zero."""
+    negative_rain = df[df["rainfall_mm"] <= 0].copy()
+    negative_rain["Reason"] = "Negative Rain"
+    return negative_rain
