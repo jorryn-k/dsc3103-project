@@ -1,0 +1,16 @@
+{
+    "model_type": "LinearRegression",
+    "features": [
+        "market",
+        "commodity",
+        "rainfall_mm"
+    ],
+    "target": "price",
+    "training_rows": 711,
+    "testing_rows": 178,
+    "mae": 1039.42,
+    "rmse": 1222.12,
+    "trained_at": "2026-11-06T06:47:52.889968+00:00",
+    "sklearn_version": "1.8.0",
+    "preprocessing": "OneHotEncoder for categories; median imputation for rainfall"
+}
